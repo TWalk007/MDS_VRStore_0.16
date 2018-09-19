@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ContextMenuSystem : MonoBehaviour {
@@ -16,7 +14,7 @@ public class ContextMenuSystem : MonoBehaviour {
     private SteamVR_TrackedObject trackedObj;
 
     private GameObject canvasObj;
-    private ControllerGrabObject controllerGrabObject;
+    private EventController eventController;
     private SteamVR_Controller.Device Controller {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
@@ -27,14 +25,13 @@ public class ContextMenuSystem : MonoBehaviour {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
 
-    void Start() {
-        controllerGrabObject = GameObject.FindGameObjectWithTag("Controllers").GetComponent<ControllerGrabObject>();
+    void Start() {        
         canvasObj = transform.GetChild(0).gameObject;
     }
 
     public void ExitButton() {
-        controllerGrabObject.myState = ControllerGrabObject.States.freeRoam;
-        controllerGrabObject.menuOpen = false;
+        eventController.myState = EventController.States.freeRoam;
+        eventController.menuOpen = false;
         Destroy(gameObject);
     }
 

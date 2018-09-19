@@ -1,54 +1,39 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+
 
 public class ControllerGrabObject : MonoBehaviour {
 
-    public GameObject parabolicPointer;
+    public EventController eventController;
+
 
     [HideInInspector]
     public GameObject objectInHand;
     [HideInInspector]
     public GameObject collidingObject;
-    [HideInInspector]
-    public bool menuOpen = false;
-
-    public GameObject contextMenuSystem;
-    public enum States { freeRoam, objectHighlighted, objectInHand, menuActive };
-    public States myState;
-       
-
 
     private SteamVR_TrackedObject trackedObj;
     private bool objectInHandCheck = false;
-    private bool parabolicPointerOn = true;
-    private GameObject navMesh;
 
     private SteamVR_Controller.Device Controller {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
 
-
     private void Awake() {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
-
-    private void Start() {
-        navMesh = GameObject.FindGameObjectWithTag("Navmesh");
-    }
-
 
     private void SetCollidingObject(Collider col) {
         if (collidingObject || !col.GetComponent<Rigidbody>()) {
             return;
         }
         collidingObject = col.gameObject;
+        eventController.collidingObject = collidingObject;
     }
 
     public void OnTriggerEnter(Collider other) {
         SetCollidingObject(other);
 
-        myState = States.objectHighlighted;        
+        eventController.myState = EventController.States.objectHighlighted;
     }
 
     public void OnTriggerStay(Collider other) {
@@ -60,7 +45,7 @@ public class ControllerGrabObject : MonoBehaviour {
             return;
         }
         collidingObject = null;
-        myState = States.freeRoam;
+        eventController.myState = EventController.States.freeRoam;
     }
 
     private void GrabObject() {
@@ -72,7 +57,7 @@ public class ControllerGrabObject : MonoBehaviour {
         objectInHandCheck = true;
         if (objectInHand.GetComponent<HighlightController>()) {
             objectInHand.GetComponent<HighlightController>().objectInHand = objectInHandCheck;
-            myState = States.objectInHand;
+            eventController.GetComponent<EventController>().myState = EventController.States.objectInHand;
         }
     }
 
@@ -96,8 +81,7 @@ public class ControllerGrabObject : MonoBehaviour {
             objectInHand.GetComponent<HighlightController>().objectInHand = objectInHandCheck;
         }
 
-        objectInHand = null;
-        myState = States.freeRoam;
+        objectInHand = null;        
     }
 
 
@@ -114,85 +98,7 @@ public class ControllerGrabObject : MonoBehaviour {
                 ReleaseObject();
             }
         }
-
-        if (myState == States.freeRoam) {
-            //I placed this event into an if statement because it was happening every frame
-            //which caused the pointer to constantly be enabled not allowing it to work correctly
-            //(teleporting through the floor).
-            if (!parabolicPointerOn) {
-
-                //This state setting here prevents all the popping around when the teleport should be off.
-
-
-                if (!menuOpen) {
-                    TurnOnParabolicPointer();
-                }
-            }
-
-
-        } else if (myState == States.objectHighlighted) {
-            if (parabolicPointerOn == true) {
-                TurnOffParabolicPointer();
-            }
-
-            if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
-                
-                if (!menuOpen) {
-
-                    GameObject menuInScene = GameObject.FindGameObjectWithTag("ContextMenuSystem");
-
-                    if (menuInScene == null) {
-                        GameObject contextMenu = (GameObject)Instantiate(contextMenuSystem);
-                        Vector3 offsetPos = new Vector3(0, 0.25f, 0.25f);
-                        Vector3 newPos = collidingObject.transform.position + offsetPos;
-                        contextMenu.transform.position = newPos;
-
-                        myState = States.menuActive;
-                        menuOpen = true;
-                    } 
-                }
-            }
-                       
-
-
-        } else if (myState == States.objectInHand) {
-            if (parabolicPointerOn == true) {
-                TurnOffParabolicPointer();
-            }
-
-
-        } else if (myState == States.menuActive) {
-            if (parabolicPointerOn == true) {
-                TurnOffParabolicPointer();  
-            }
-
-            //Ray raycast = new Ray(transform.position, transform.forward);
-            //RaycastHit rayHit;
-            //bool bHit = Physics.Raycast(raycast, out rayHit);
-            //if (Controller.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
-            //    GameObject hitObject = rayHit.transform.gameObject;
-            //    hitObject.GetComponent<Button>().onClick.Invoke();
-            //}
-        }
     }
 
-    private void TurnOffParabolicPointer() {
-        navMesh.SetActive(false);
-        parabolicPointer.SetActive(false);
-        parabolicPointer.GetComponent<ParabolicPointer>().enabled = false;
-        parabolicPointerOn = false;
 
-        //This state setting here prevents all the popping around when the teleport should be off.
-        TeleportVive teleportVive = FindObjectOfType<TeleportVive>();
-        teleportVive.CurrentTeleportState = TeleportState.None;
-    }
-
-    private void TurnOnParabolicPointer() {
-        navMesh.SetActive(true);       
-        parabolicPointer.SetActive(true);
-        parabolicPointer.GetComponent<ParabolicPointer>().enabled = true;
-
-        parabolicPointerOn = true; TeleportVive teleportVive = FindObjectOfType<TeleportVive>();
-        teleportVive.CurrentTeleportState = TeleportState.None;
-    }
 }

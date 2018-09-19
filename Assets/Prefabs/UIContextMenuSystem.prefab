@@ -531,10 +531,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1706d2e50651c248ad40e750c049e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backButton: {fileID: 0}
-  nextButton: {fileID: 0}
-  plusButton: {fileID: 0}
-  minusButton: {fileID: 0}
+  backButton: {fileID: 114487004223059702}
+  nextButton: {fileID: 114305572606589896}
+  plusButton: {fileID: 114282556485876008}
+  minusButton: {fileID: 114196346715275158}
 --- !u!114 &114726469883026838
 MonoBehaviour:
   m_ObjectHideFlags: 1
