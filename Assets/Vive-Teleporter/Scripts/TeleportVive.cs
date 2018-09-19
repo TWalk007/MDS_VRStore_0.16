@@ -12,7 +12,7 @@ public class TeleportVive : MonoBehaviour {
     /// Origin of the player's head
     [Tooltip("Transform of the player's head")]
     public Transform HeadTransform;
-    
+
     /// How long, in seconds, the fade-in/fade-out animation should take
     [Tooltip("Duration of the \"blink\" animation (fading in and out upon teleport) in seconds.")]
     public float TeleportFadeDuration = 0.2f;
@@ -46,7 +46,7 @@ public class TeleportVive : MonoBehaviour {
     /// None: The player is not using teleportation right now
     /// Selecting: The player is currently selecting a teleport destination (holding down on touchpad)
     /// Teleporting: The player has selected a teleport destination and is currently teleporting now (fading in/out)
-    public TeleportState CurrentTeleportState { get; private set; }
+    public TeleportState CurrentTeleportState { get; set; }
 
     private Vector3 LastClickAngle = Vector3.zero;
     private bool IsClicking = false;
@@ -56,8 +56,7 @@ public class TeleportVive : MonoBehaviour {
 
     private Mesh PlaneMesh;
 
-    void Start()
-    {
+    void Start() {
         // Disable the pointer graphic (until the user holds down on the touchpad)
         Pointer.enabled = false;
 
@@ -79,7 +78,7 @@ public class TeleportVive : MonoBehaviour {
         PlaneMesh.triangles = elts;
         PlaneMesh.RecalculateBounds();
 
-        if(FadeMaterial != null)
+        if (FadeMaterial != null)
             FadeMaterialInstance = new Material(FadeMaterial);
         // Set some standard variables
         MaterialFadeID = Shader.PropertyToID("_Fade");
@@ -88,8 +87,7 @@ public class TeleportVive : MonoBehaviour {
         RoomBorder = GetComponent<BorderRenderer>();
 
         Vector3 p0, p1, p2, p3;
-        if (GetChaperoneBounds(out p0, out p1, out p2, out p3))
-        {
+        if (GetChaperoneBounds(out p0, out p1, out p2, out p3)) {
             // Rotate to match camera rig rotation
             var originRotationMatrix = Matrix4x4.TRS(Vector3.zero, OriginTransform.rotation, Vector3.one);
 
@@ -114,11 +112,9 @@ public class TeleportVive : MonoBehaviour {
     /// \param p0, p1, p2, p3 Points that make up the chaperone boundaries.
     /// 
     /// \returns If the play area retrieval was successful
-    public static bool GetChaperoneBounds(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
-    {
+    public static bool GetChaperoneBounds(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3) {
         var initOpenVR = (!SteamVR.active && !SteamVR.usingNativeSupport);
-        if (initOpenVR)
-        {
+        if (initOpenVR) {
             var error = EVRInitError.None;
             OpenVR.Init(ref error, EVRApplicationType.VRApplication_Other);
         }
@@ -139,10 +135,8 @@ public class TeleportVive : MonoBehaviour {
         return success;
     }
 
-    void OnPostRender()
-    {
-        if(CurrentTeleportState == TeleportState.Teleporting)
-        {
+    void OnPostRender() {
+        if (CurrentTeleportState == TeleportState.Teleporting) {
             // Perform the fading in/fading out animation, if we are teleporting.  This is essentially a triangle wave
             // in/out, and the user teleports when it is fully black.
             float alpha = Mathf.Clamp01((Time.time - TeleportTimeMarker) / (TeleportFadeDuration / 2));
@@ -156,21 +150,16 @@ public class TeleportVive : MonoBehaviour {
         }
     }
 
-	void Update ()
-    {
+    void Update() {
         // If we are currently teleporting (ie handling the fade in/out transition)...
-        if(CurrentTeleportState == TeleportState.Teleporting)
-        {
+        if (CurrentTeleportState == TeleportState.Teleporting) {
             // Wait until half of the teleport time has passed before the next event (note: both the switch from fade
             // out to fade in and the switch from fade in to stop the animation is half of the fade duration)
-            if(Time.time - TeleportTimeMarker >= TeleportFadeDuration / 2)
-            {
-                if(FadingIn)
-                {
+            if (Time.time - TeleportTimeMarker >= TeleportFadeDuration / 2) {
+                if (FadingIn) {
                     // We have finished fading in
                     CurrentTeleportState = TeleportState.None;
-                } else
-                {
+                } else {
                     // We have finished fading out - time to teleport!
                     Vector3 offset = OriginTransform.position - HeadTransform.position;
                     offset.y = 0;
@@ -182,8 +171,7 @@ public class TeleportVive : MonoBehaviour {
             }
         }
         // At this point, we are NOT actively teleporting.  So now we care about controller input.
-        else if(CurrentTeleportState == TeleportState.Selecting)
-        {
+        else if (CurrentTeleportState == TeleportState.Selecting) {
             Debug.Assert(ActiveController != null);
 
             // Here, there is an active controller - that is, the user is holding down on the trackpad.
@@ -192,20 +180,17 @@ public class TeleportVive : MonoBehaviour {
             var device = SteamVR_Controller.Input(index);
             bool shouldTeleport = device.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad);
             bool shouldCancel = device.GetPressUp(SteamVR_Controller.ButtonMask.Grip);
-            if (shouldTeleport || shouldCancel)
-            {
+            if (shouldTeleport || shouldCancel) {
                 // If the user has decided to teleport (ie lets go of touchpad) then remove all visual indicators
                 // related to selecting things and actually teleport
                 // If the user has decided to cancel (ie squeezes grip button) then remove visual indicators and do nothing
-                if (shouldTeleport && Pointer.PointOnNavMesh)
-                {
+                if (shouldTeleport && Pointer.PointOnNavMesh) {
                     // Begin teleport sequence
                     CurrentTeleportState = TeleportState.Teleporting;
                     TeleportTimeMarker = Time.time;
-                }
-                else
+                } else
                     CurrentTeleportState = TeleportState.None;
-                
+
                 // Reset active controller, disable pointer, disable visual indicators
                 ActiveController = null;
                 Pointer.enabled = false;
@@ -218,8 +203,7 @@ public class TeleportVive : MonoBehaviour {
                 Pointer.transform.position = Vector3.zero;
                 Pointer.transform.rotation = Quaternion.identity;
                 Pointer.transform.localScale = Vector3.one;
-            } else
-            {
+            } else {
                 // The user is still deciding where to teleport and has the touchpad held down.
                 // Note: rendering of the parabolic pointer / marker is done in ParabolicPointer
                 Vector3 offset = HeadTransform.position - OriginTransform.position;
@@ -234,38 +218,32 @@ public class TeleportVive : MonoBehaviour {
                     LastClickAngle = Pointer.CurrentPointVector;
 
                 float angleClickDiff = Vector3.Angle(LastClickAngle, Pointer.CurrentPointVector);
-                if (IsClicking && Mathf.Abs(angleClickDiff) > HapticClickAngleStep)
-                {
+                if (IsClicking && Mathf.Abs(angleClickDiff) > HapticClickAngleStep) {
                     LastClickAngle = Pointer.CurrentPointVector;
                     if (Pointer.PointOnNavMesh)
                         device.TriggerHapticPulse();
                 }
 
                 // Trigger a stronger haptic pulse when "entering" a teleportable surface
-                if (Pointer.PointOnNavMesh && !IsClicking)
-                {
+                if (Pointer.PointOnNavMesh && !IsClicking) {
                     IsClicking = true;
                     device.TriggerHapticPulse(750);
                     LastClickAngle = Pointer.CurrentPointVector;
-                }
-                else if (!Pointer.PointOnNavMesh && IsClicking)
+                } else if (!Pointer.PointOnNavMesh && IsClicking)
                     IsClicking = false;
             }
-        }
-        else //CurrentTeleportState == TeleportState.None
-        {
+        } else //CurrentTeleportState == TeleportState.None
+          {
             // At this point the user is not holding down on the touchpad at all or has canceled a teleport and hasn't
             // let go of the touchpad.  So we wait for the user to press the touchpad and enable visual indicators
             // if necessary.
-            foreach (SteamVR_TrackedObject obj in Controllers)
-            {
+            foreach (SteamVR_TrackedObject obj in Controllers) {
                 int index = (int)obj.index;
                 if (index == -1)
                     continue;
 
                 var device = SteamVR_Controller.Input(index);
-                if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
-                {
+                if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
                     // Set active controller to this controller, and enable the parabolic pointer and visual indicators
                     // that the user can use to determine where they are able to teleport.
                     ActiveController = obj;
@@ -277,8 +255,8 @@ public class TeleportVive : MonoBehaviour {
                     Pointer.enabled = true;
 
                     CurrentTeleportState = TeleportState.Selecting;
-                    
-                    if(NavmeshAnimator != null)
+
+                    if (NavmeshAnimator != null)
                         NavmeshAnimator.SetBool(EnabledAnimatorID, true);
 
                     Pointer.ForceUpdateCurrentAngle();
@@ -287,12 +265,11 @@ public class TeleportVive : MonoBehaviour {
                 }
             }
         }
-	}
+    }
 }
 
 /// \brief Represents the player's current use of the teleport machanic.
-public enum TeleportState
-{
+public enum TeleportState {
     /// The player is not using teleportation right now
     None,
     /// The player is currently selecting a teleport destination (holding down on touchpad)
