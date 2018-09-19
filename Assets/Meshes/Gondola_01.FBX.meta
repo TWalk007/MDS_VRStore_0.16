@@ -1,0 +1,218 @@
+fileFormatVersion: 2
+guid: 3366c3fc27232b34da3a63f25d45d577
+timeCreated: 1508332987
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Shelf_00
+    100004: Shelf_01
+    100006: Shelf_02
+    100008: Shelf_03
+    100010: Shelf_04
+    100012: Shelf_05
+    100014: Shelf_06
+    100016: Shelf_07
+    100018: Shelf_08
+    100020: Shelf_09
+    100022: Shelf_10
+    100024: Shelf_11
+    100026: Shelf_BackPanel_01
+    100028: Shelf_BackPanel_02
+    100030: Shelf_Base
+    100032: Shelf_Center Support_00
+    100034: Shelf_Center Support_01
+    100036: Shelf_Center Support_02
+    100038: Shelf_CenterSupport
+    100040: Shelf_Support Arm_00
+    100042: Shelf_Support Arm_01
+    100044: Shelf_Support Arm_02
+    100046: Shelf_Support Arm_03
+    100048: Shelf_Top_01
+    100050: Shelf_Top_02
+    400000: //RootNode
+    400002: Shelf_00
+    400004: Shelf_01
+    400006: Shelf_02
+    400008: Shelf_03
+    400010: Shelf_04
+    400012: Shelf_05
+    400014: Shelf_06
+    400016: Shelf_07
+    400018: Shelf_08
+    400020: Shelf_09
+    400022: Shelf_10
+    400024: Shelf_11
+    400026: Shelf_BackPanel_01
+    400028: Shelf_BackPanel_02
+    400030: Shelf_Base
+    400032: Shelf_Center Support_00
+    400034: Shelf_Center Support_01
+    400036: Shelf_Center Support_02
+    400038: Shelf_CenterSupport
+    400040: Shelf_Support Arm_00
+    400042: Shelf_Support Arm_01
+    400044: Shelf_Support Arm_02
+    400046: Shelf_Support Arm_03
+    400048: Shelf_Top_01
+    400050: Shelf_Top_02
+    2300000: Shelf_00
+    2300002: Shelf_01
+    2300004: Shelf_02
+    2300006: Shelf_03
+    2300008: Shelf_04
+    2300010: Shelf_05
+    2300012: Shelf_06
+    2300014: Shelf_07
+    2300016: Shelf_08
+    2300018: Shelf_09
+    2300020: Shelf_10
+    2300022: Shelf_11
+    2300024: Shelf_BackPanel_01
+    2300026: Shelf_BackPanel_02
+    2300028: Shelf_Base
+    2300030: Shelf_Center Support_00
+    2300032: Shelf_Center Support_01
+    2300034: Shelf_Center Support_02
+    2300036: Shelf_CenterSupport
+    2300038: Shelf_Support Arm_00
+    2300040: Shelf_Support Arm_01
+    2300042: Shelf_Support Arm_02
+    2300044: Shelf_Support Arm_03
+    2300046: Shelf_Top_01
+    2300048: Shelf_Top_02
+    3300000: Shelf_00
+    3300002: Shelf_01
+    3300004: Shelf_02
+    3300006: Shelf_03
+    3300008: Shelf_04
+    3300010: Shelf_05
+    3300012: Shelf_06
+    3300014: Shelf_07
+    3300016: Shelf_08
+    3300018: Shelf_09
+    3300020: Shelf_10
+    3300022: Shelf_11
+    3300024: Shelf_BackPanel_01
+    3300026: Shelf_BackPanel_02
+    3300028: Shelf_Base
+    3300030: Shelf_Center Support_00
+    3300032: Shelf_Center Support_01
+    3300034: Shelf_Center Support_02
+    3300036: Shelf_CenterSupport
+    3300038: Shelf_Support Arm_00
+    3300040: Shelf_Support Arm_01
+    3300042: Shelf_Support Arm_02
+    3300044: Shelf_Support Arm_03
+    3300046: Shelf_Top_01
+    3300048: Shelf_Top_02
+    4300000: Shelf_11
+    4300002: Shelf_00
+    4300004: Shelf_01
+    4300006: Shelf_02
+    4300008: Shelf_03
+    4300010: Shelf_04
+    4300012: Shelf_Support Arm_00
+    4300014: Shelf_Support Arm_01
+    4300016: Shelf_Top_01
+    4300018: Shelf_Support Arm_02
+    4300020: Shelf_Support Arm_03
+    4300022: Shelf_05
+    4300024: Shelf_06
+    4300026: Shelf_07
+    4300028: Shelf_08
+    4300030: Shelf_09
+    4300032: Shelf_10
+    4300034: Shelf_BackPanel_01
+    4300036: Shelf_BackPanel_02
+    4300038: Shelf_CenterSupport
+    4300040: Shelf_Center Support_00
+    4300042: Shelf_Center Support_01
+    4300044: Shelf_Center Support_02
+    4300046: Shelf_Top_02
+    4300048: Shelf_Base
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Modeling Material
+    second: {fileID: 2100000, guid: 81a9848b492cb864aa77ab61249299aa, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
